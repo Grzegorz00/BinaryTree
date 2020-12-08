@@ -57,7 +57,7 @@ class Node {
         this.right = right;
     }
 
-    public void setChild(char whichChild, Node child){
+    public void createChild(char whichChild, Node child){
         if (whichChild == 'L') setLeft(child);
         else setRight(child);
     }
@@ -85,7 +85,7 @@ class Tree {
         Node tmpNodePointer = root;
         nodeCreator(value,line.substring(2),tmpNodePointer);
 
-        if(line.substring(2).length() > arrLen) arrLen = line.substring(2).length();
+        if(line.substring(2).length() > arrLen) arrLen = line.substring(2).length() + 1;
     }
 
     public Node getRoot() {
@@ -99,10 +99,10 @@ class Tree {
     private void nodeCreator(char value, String children, Node tmpNodePointer){
         char child =  children.charAt(0);
 
-        if (tmpNodePointer.getChild(child) == null) tmpNodePointer.setChild(child,new Node());
+        if (tmpNodePointer.getChild(child) == null) tmpNodePointer.createChild(child,new Node());
 
-        if (children.length() > 1) nodeCreator(value,children.substring(1),tmpNodePointer.getChild(child));
-        else if(children.length() == 1)tmpNodePointer.setChild(child,new Node(value));
+        if (children.length() > 1)nodeCreator(value,children.substring(1),tmpNodePointer.getChild(child));
+        if(children.length() == 1)tmpNodePointer.getChild(child).setValue(value);
     }
 
     public String getWord() {
@@ -120,20 +120,18 @@ class Tree {
         LAWRec(longestWord,arrTmp,tmpNodePointer,0);
     }
 
-    public void LAWRec(char longestWord[],char arrTmp[], Node tmpNodepointer,int counter) {
+    public void LAWRec(char longestWord[],char arrTmp[], Node tmpNodePointer,int counter) {
 
-        if (tmpNodepointer == null)
+        if (tmpNodePointer == null)
             return;
 
-        arrTmp[counter] = tmpNodepointer.getValue();
+        arrTmp[counter] = tmpNodePointer.getValue();
         counter++;
 
-        if (tmpNodepointer.getLeft() == null && tmpNodepointer.getRight() == null)
-            if(compareArrays(longestWord,arrTmp)) longestWord = arrTmp.clone();
-        else {
-            LAWRec(longestWord,arrTmp,tmpNodepointer.getLeft(),counter);
-            LAWRec(longestWord,arrTmp,tmpNodepointer.getRight(),counter);
-        }
+        if (tmpNodePointer.getLeft() == null && tmpNodePointer.getRight() == null)
+            if (compareArrays(longestWord, arrTmp)) longestWord = arrTmp.clone();
+        LAWRec(longestWord,arrTmp,tmpNodePointer.getLeft(),counter);
+        LAWRec(longestWord,arrTmp,tmpNodePointer.getRight(),counter);
     }
 
     public boolean compareArrays(char[] longestWord, char[] arrTmp) {

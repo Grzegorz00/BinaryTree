@@ -13,43 +13,38 @@ public class TreeTest{
 
     @Test
     public void addTest() {
-        //1
         tree1.add("A RR");
+        tree1.add("B RL");
+        tree1.add("C R");
+        tree1.add("E RLRL");
+        tree1.add("D RLR");
+        tree1.add("W");
+
         assertEquals(
                 "Creating no-value root and right->right node - A",
                 'A',
                 tree1.getRoot().getRight().getRight().getValue()
         );
-        //2
-        tree1.add("B RL");
         assertEquals(
                 "Going through existing root->rightNode and creating new leftNode - B",
                 'B',
                 tree1.getRoot().getRight().getLeft().getValue()
         );
-        //3
-        tree1.add("C R");
         assertEquals(
                 "Going through existing root and adding value to rightNode - C",
                 'C',
                 tree1.getRoot().getRight().getValue()
         );
-        //4
-        tree1.add("E RLRL");
         assertEquals(
                 "Going through existing root->right->left->right and adding value to leftNode - E",
                 'E',
                 tree1.getRoot().getRight().getLeft().getRight().getLeft().getValue()
         );
-        //4
-        tree1.add("D RLR");
         assertEquals(
                 "Going through existing root->right->left and adding value to rightNode - D",
                 'D',
                 tree1.getRoot().getRight().getLeft().getRight().getValue()
         );
-        //5
-        tree1.add("W");
         assertEquals("Only root value", 'W', tree1.getRoot().getValue());
     }
 
@@ -62,7 +57,7 @@ public class TreeTest{
         tree1.add("D RLR");
         tree1.add("W");
 
-        assertEquals("Check for max array length",4,tree1.getArrLen());
+        assertEquals("Check for max array length",5,tree1.getArrLen());
     }
 
     @Test
