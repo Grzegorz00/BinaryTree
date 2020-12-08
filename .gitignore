@@ -1,2 +1,6 @@
 # Project exclude paths
 /target/
+/.idea/
+/Zad2.iml
+
+/src/test/Zad2-testowe-dane/
