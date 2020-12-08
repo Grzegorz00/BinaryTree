@@ -50,6 +50,12 @@ public class TreeTest{
 
     @Test
     public void getArrLenTest(){
+        tree1.add("A RR");
+        tree1.add("B RL");
+        tree1.add("C R");
+        tree1.add("E RLRL");
+        tree1.add("D RLR");
+
         assertEquals("Check for max array length",4,tree1.getArrLen());
     }
 }
