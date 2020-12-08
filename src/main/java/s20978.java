@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class s20978 {
@@ -10,6 +12,8 @@ public class s20978 {
         while (sc.hasNext()){
             tree.add(sc.nextLine());
         }
+        System.out.println(tree.getWord());
+
     }
 }
 
@@ -62,6 +66,8 @@ class Node {
 class Tree {
     private Node root;
     private int arrLen = 0;
+    private char longestWord [];
+    private char arrTmp [];
 
     public Tree() {
         this.root = new Node();
@@ -97,6 +103,53 @@ class Tree {
 
         if (children.length() > 1) nodeCreator(value,children.substring(1),tmpNodePointer.getChild(child));
         else if(children.length() == 1)tmpNodePointer.setChild(child,new Node(value));
+    }
+
+    public String getWord() {
+        lastAlphabeticalWord();
+        longestWord = reverseArr(longestWord);
+
+        return String.valueOf(longestWord);
+    }
+
+    public void lastAlphabeticalWord() {
+        longestWord = new char[arrLen];
+        arrTmp = new char[arrLen];
+
+        Node tmpNodePointer = root;
+        LAWRec(longestWord,arrTmp,tmpNodePointer,0);
+    }
+
+    public void LAWRec(char longestWord[],char arrTmp[], Node tmpNodepointer,int counter) {
+
+        if (tmpNodepointer == null)
+            return;
+
+        arrTmp[counter] = tmpNodepointer.getValue();
+        counter++;
+
+        if (tmpNodepointer.getLeft() == null && tmpNodepointer.getRight() == null)
+            if(compareArrays(longestWord,arrTmp)) longestWord = arrTmp.clone();
+        else {
+            LAWRec(longestWord,arrTmp,tmpNodepointer.getLeft(),counter);
+            LAWRec(longestWord,arrTmp,tmpNodepointer.getRight(),counter);
+        }
+    }
+
+    public boolean compareArrays(char[] longestWord, char[] arrTmp) {
+        for (int i = 0; i < longestWord.length && i < arrTmp.length; i++){
+            if(longestWord[i] < arrTmp[i]) return true;
+        }
+        if (longestWord.length > arrTmp.length) return true;
+        return false;
+    }
+
+    public char[] reverseArr(char before[]){
+        char tmp [] = before.clone();
+        for (int i = before.length - 1, j = 0; i >= 0; i--, j++){
+            before[i] = tmp[j];
+        }
+        return before;
     }
 
 }
