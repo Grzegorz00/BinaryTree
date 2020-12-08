@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TreeTest{
 
-    private Tree tree1 = new Tree();
-    private Tree tree2 = new Tree();
+    private final Tree tree1 = new Tree();
+    private final Tree tree2 = new Tree();
 
     @Test
     public void addTest() {
@@ -69,7 +69,7 @@ public class TreeTest{
         tree1.add("D RLR");
         tree1.add("W");
 
-        Scanner sc = null;
+        Scanner sc;
         try {
             sc = new Scanner(new File("src/test/testData.txt"));
             while (sc.hasNext()){
@@ -86,17 +86,17 @@ public class TreeTest{
 
     @Test
     public void compareArraysTest(){
-        assertEquals("Compare ABC to ABC",false,tree1.compareArrays("ABC".toCharArray(),"ABC".toCharArray()));
-        assertEquals("Compare CBC to ABC",false,tree1.compareArrays("CBC".toCharArray(),"ABC".toCharArray()));
-        assertEquals("Compare ABC to CBC",true,tree1.compareArrays("ABC".toCharArray(),"CBC".toCharArray()));
-        assertEquals("Compare ABC to ABD",true,tree1.compareArrays("ABC".toCharArray(),"ABD".toCharArray()));
-        assertEquals("Compare XYZ to XYZZ",false,tree1.compareArrays("XYZ".toCharArray(),"XYZZ".toCharArray()));
-        assertEquals("Compare XYZZ to XYZ",true,tree1.compareArrays("XYZZ".toCharArray(),"XYZ".toCharArray()));
+        assertFalse("Compare ABC to ABC", tree1.compareArrays("ABC".toCharArray(), "ABC".toCharArray()));
+        assertFalse("Compare CBC to ABC", tree1.compareArrays("CBC".toCharArray(), "ABC".toCharArray()));
+        assertTrue("Compare ABC to CBC", tree1.compareArrays("ABC".toCharArray(), "CBC".toCharArray()));
+        assertTrue("Compare ABC to ABD", tree1.compareArrays("ABC".toCharArray(), "ABD".toCharArray()));
+        assertFalse("Compare XYZ to XYZZ", tree1.compareArrays("XYZ".toCharArray(), "XYZZ".toCharArray()));
+        assertTrue("Compare XYZZ to XYZ", tree1.compareArrays("XYZZ".toCharArray(), "XYZ".toCharArray()));
     }
 
     @Test
     public void reverseArrTest(){
-        char arr[] = "ABC".toCharArray();
+        char[] arr = "ABC".toCharArray();
         arr = tree1.reverseArr(arr);
         assertEquals("Reverse", "CBA",String.valueOf(arr));
     }
