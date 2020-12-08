@@ -61,6 +61,7 @@ class Node {
 
 class Tree {
     private Node root;
+    private int arrLen = 0;
 
     public Tree() {
         this.root = new Node();
@@ -77,10 +78,16 @@ class Tree {
 
         Node tmpNodePointer = root;
         nodeCreator(value,line.substring(2),tmpNodePointer);
+
+        if(line.substring(2).length() > arrLen) arrLen = line.substring(2).length();
     }
 
     public Node getRoot() {
         return root;
+    }
+
+    public int getArrLen() {
+        return arrLen;
     }
 
     private void nodeCreator(char value, String children, Node tmpNodePointer){

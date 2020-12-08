@@ -47,4 +47,9 @@ public class TreeTest{
                 tree1.getRoot().getRight().getLeft().getRight().getValue()
         );
     }
+
+    @Test
+    public void getArrLenTest(){
+        assertEquals("Check for max array length",4,tree1.getArrLen());
+    }
 }
