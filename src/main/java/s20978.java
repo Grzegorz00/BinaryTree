@@ -20,8 +20,7 @@ class Node {
     private Node left;
     private Node right;
 
-    public Node() {
-    }
+    public Node() {}
 
     public char getValue() {
         return value;
@@ -77,7 +76,7 @@ class Tree {
 
         nodeCreator(value,line.substring(2), root);
 
-        if(line.substring(2).length() > arrLen) arrLen = line.substring(2).length() + 1;
+        if(line.substring(2).length() + 1> arrLen) arrLen = line.substring(2).length() + 1;
     }
 
     public Node getRoot() {
@@ -88,17 +87,18 @@ class Tree {
         return arrLen;
     }
 
-    private void nodeCreator(char value, String children, Node tmpNodePointer){
+    private void nodeCreator(char value, String children, Node tmpPointer){
         char child =  children.charAt(0);
 
-        if (tmpNodePointer.getChild(child) == null) tmpNodePointer.createChild(child,new Node());
+        if (tmpPointer.getChild(child) == null) tmpPointer.createChild(child,new Node());
 
-        if (children.length() > 1)nodeCreator(value,children.substring(1),tmpNodePointer.getChild(child));
-        if(children.length() == 1)tmpNodePointer.getChild(child).setValue(value);
+        if (children.length() > 1)nodeCreator(value,children.substring(1),tmpPointer.getChild(child));
+        if(children.length() == 1)tmpPointer.getChild(child).setValue(value);
     }
 
     public String getWord() {
         lastAlphabeticalWord();
+        longestWord = deleteNulls(longestWord);
         longestWord = reverseArr(longestWord);
 
         return String.valueOf(longestWord);
@@ -108,28 +108,51 @@ class Tree {
         longestWord = new char[arrLen];
         char[] arrTmp = new char[arrLen];
 
-        LAWRec(longestWord, arrTmp, root,0);
+        LAWRec(arrTmp, root,0);
     }
 
-    public void LAWRec(char[] longestWord, char[] arrTmp, Node tmpNodePointer, int counter) {
+    public void LAWRec( char[] arrTmp, Node tmpPointer, int counter) {
 
-        if (tmpNodePointer == null)
+        if (tmpPointer == null)
             return;
 
-        arrTmp[counter] = tmpNodePointer.getValue();
+        arrTmp[counter] = tmpPointer.getValue();
         counter++;
 
-        if (tmpNodePointer.getLeft() == null && tmpNodePointer.getRight() == null)
+        if (tmpPointer.getLeft() == null && tmpPointer.getRight() == null) {
+            if(counter <= arrLen)for (int i = counter; i < arrLen; i++) arrTmp[i] = 0;
             if (compareArrays(longestWord, arrTmp)) longestWord = arrTmp.clone();
-        LAWRec(longestWord,arrTmp,tmpNodePointer.getLeft(),counter);
-        LAWRec(longestWord,arrTmp,tmpNodePointer.getRight(),counter);
+        }
+
+        LAWRec(arrTmp,tmpPointer.getLeft(),counter);
+        LAWRec(arrTmp,tmpPointer.getRight(),counter);
+
     }
 
     public boolean compareArrays(char[] longestWord, char[] arrTmp) {
-        for (int i = 0; i < longestWord.length && i < arrTmp.length; i++){
-            if(longestWord[i] < arrTmp[i]) return true;
+        int newLongLength = 0;
+        int newTmpLength = 0;
+
+        for (int i = 0; i < longestWord.length; i++){
+            if(longestWord[i] != 0) newLongLength++;
+            if(arrTmp[i] != 0) newTmpLength++;
         }
-        return longestWord.length > arrTmp.length;
+
+        char [] newLongAr = new char[newLongLength];
+        copy(longestWord, newLongAr);
+        newLongAr = reverseArr(newLongAr);
+        char [] newTmpAr = new char[newTmpLength];
+        copy(arrTmp, newTmpAr);
+        newTmpAr = reverseArr(newTmpAr);
+
+        for (int i = 0, j = 0; i < newLongLength && j < newTmpLength; i++, j++){
+            if(newLongAr[i] < newTmpAr[i])
+                return true;
+            if(newLongAr[i] > newTmpAr[i])
+                return false;
+        }
+
+        return newLongLength < newTmpLength;
     }
 
     public char[] reverseArr(char[] reverse){
@@ -139,6 +162,23 @@ class Tree {
         }
         return reverse;
     }
+
+    public void copy(char[] from, char[] to){
+        for (int i = 0; i < to.length; i++){
+            to[i] = from[i];
+        }
+    }
+
+    public char[] deleteNulls(char[] word){
+        int newLength = 0;
+        for (int i = 0; i < word.length; i++){
+            if(word[i] != 0) newLength++;
+        }
+        char [] newWord = new char[newLength];
+        copy(word,newWord);
+        return newWord;
+    }
+    
 
 }
 
